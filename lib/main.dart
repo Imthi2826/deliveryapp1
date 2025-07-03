@@ -1,4 +1,4 @@
-import 'package:deliveryapp/onboardscreen.dart';
+import 'package:deliveryapp/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Onboarding(),
+      home: Homepage(),
     );
   }
 }

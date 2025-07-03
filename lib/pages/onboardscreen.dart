@@ -1,3 +1,4 @@
+import 'package:deliveryapp/model/category_model.dart';
 import 'package:deliveryapp/service/widget_size.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +12,7 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+  List<CategoryModel> categories=[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
