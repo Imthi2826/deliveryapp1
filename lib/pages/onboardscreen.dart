@@ -1,4 +1,5 @@
 import 'package:deliveryapp/model/category_model.dart';
+import 'package:deliveryapp/pages/homepage.dart';
 import 'package:deliveryapp/service/widget_size.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -43,7 +44,10 @@ class _OnboardingState extends State<Onboarding> {
                 color: Colors.brown,
                 borderRadius: BorderRadius.circular(20)
               ),
-              child: TextButton(onPressed: (){},
+              child: TextButton(onPressed: (){
+                Navigator.pop(context,MaterialPageRoute(builder: (context)=>Homepage()));
+
+              },
                   child: Text("Get Start",
                   style: TextStyle(color: Colors.white,fontSize: 15),
                   )),

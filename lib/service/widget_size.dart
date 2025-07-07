@@ -45,4 +45,12 @@ class AppWidget{
 
     );
   }
+
+  static TextStyle pizzestyleTextFieldStyle(){
+    return TextStyle(
+      color: Colors.black,
+      fontSize: 16,
+      fontWeight: FontWeight.w600
+    );
+  }
 }

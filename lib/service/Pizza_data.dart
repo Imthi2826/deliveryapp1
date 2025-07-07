@@ -1,33 +1,34 @@
+// lib/service/Pizza_data.dart
 import 'package:deliveryapp/model/pizza_model.dart';
-import 'package:flutter/material.dart';
+import 'package:deliveryapp/model/fooditem.dart'; // Import FoodItem
 
-List<PizzaModel> getpizza(){
-  List<PizzaModel> pizza=[];
-  PizzaModel pizzaModel=  PizzaModel();
-
-  pizzaModel.name="name";
-  pizzaModel.image="";
-  pizzaModel.price="";
+List<FoodItem> getpizza() { // Return type is List<FoodItem>
+  List<FoodItem> pizza = [];
+  PizzaModel pizzaModel = PizzaModel(
+    image: "assets/pizza11.jpg", // Ensure asset paths are correct
+    name: "Pepperoni Classic",
+    price: "250",
+  );
   pizza.add(pizzaModel);
-  pizzaModel =PizzaModel();
 
-  pizzaModel.name="name";
-  pizzaModel.image="";
-  pizzaModel.price="";
+  pizzaModel = PizzaModel(
+    image: "assets/pizza12.jpg",
+    name: "Margherita Dream",
+    price: "220",
+  );
   pizza.add(pizzaModel);
-  pizzaModel =PizzaModel();
-
-  pizzaModel.name="name";
-  pizzaModel.image="";
-  pizzaModel.price="";
+  pizzaModel = PizzaModel(
+    image: "assets/pizza13.jpg",
+    name: "Italian pizza",
+    price: "220",
+  );
   pizza.add(pizzaModel);
-  pizzaModel =PizzaModel();
-
-  pizzaModel.name="name";
-  pizzaModel.image="";
-  pizzaModel.price="";
+  pizzaModel = PizzaModel(
+    image: "assets/pizza.jpg",
+    name: "cheese pizza",
+    price: "220",
+  );
   pizza.add(pizzaModel);
-  pizzaModel =PizzaModel();
-
+  // Add more pizza items
   return pizza;
 }

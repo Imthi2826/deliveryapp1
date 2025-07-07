@@ -34,8 +34,8 @@ class _CategoryTileState extends State<CategoryTile> {
         children: [
           Image.asset(
             widget.image,
-            height: 40,
-            width: 40,
+            height: 30,
+            width:30,
             fit: BoxFit.cover,
           ),
           const SizedBox(width: 8),

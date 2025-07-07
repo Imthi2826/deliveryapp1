@@ -30,9 +30,5 @@ List<CategoryModel> getCategories() {
   category.add(categoryModel);
 
   //
-  categoryModel =CategoryModel(name: '', image: '');
-  categoryModel.name = "Desserts";
-  categoryModel.image = "assets/dessert.jpg";
-  category.add(categoryModel);
   return category;
 }
