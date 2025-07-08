@@ -53,4 +53,11 @@ class AppWidget{
       fontWeight: FontWeight.w600
     );
   }
+  static TextStyle signupTextFieldStyle(){
+    return TextStyle(
+        color: Colors.black,
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+    );
+  }
 }

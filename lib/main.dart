@@ -1,6 +1,5 @@
-import 'package:deliveryapp/pages/homepage.dart';
+
 import 'package:deliveryapp/pages/onboardscreen.dart';
-import 'package:deliveryapp/pages/Detail_pages.dart';
 import 'package:flutter/material.dart';
 
 void main() {

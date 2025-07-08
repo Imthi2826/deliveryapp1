@@ -2,6 +2,7 @@ import 'package:deliveryapp/model/category_model.dart';
 import 'package:deliveryapp/model/category_tile.dart';
 import 'package:deliveryapp/model/fooditem.dart';
 import 'package:deliveryapp/pages/Detail_pages.dart';
+import 'package:deliveryapp/pages/bottomnavigation.dart';
 import 'package:deliveryapp/service/Pizza_data.dart';
 import 'package:deliveryapp/service/burger_data.dart';
 import 'package:deliveryapp/service/category_data.dart';
@@ -17,11 +18,16 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final TextEditingController _searchController = TextEditingController();
   List<CategoryModel> categories = [];
   List<FoodItem> pizza = [];
   List<FoodItem> burger = [];
   List<FoodItem> desserts = [];
   String selectedCategoryIndex = "1";
+
+  void _handleSearch(){
+    String place =_searchController.text.trim();
+  }
 
   @override
   void initState() {
@@ -59,7 +65,7 @@ class _HomepageState extends State<Homepage> {
                     children: [
                       TextSpan(text: "Foo", style: AppWidget.threelineTextFieldStyle()),
                       TextSpan(text: "D", style: AppWidget.twolineTextFieldStyle()),
-                      TextSpan(text: "ev", style: AppWidget.onelineTextFieldStyle()),
+                      TextSpan(text: "ei", style: AppWidget.onelineTextFieldStyle()),
                     ],
                   ),
                 ),
@@ -78,37 +84,41 @@ class _HomepageState extends State<Homepage> {
             const SizedBox(height: 8),
             const Text("Order your favorite food!", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(15),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Search...",
+                      hintStyle: TextStyle(fontSize: 16),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Search...",
-                        hintStyle: TextStyle(fontSize: 16),
-                        icon: Icon(Icons.search_outlined, color: Colors.grey),
-                      ),
-                    ),
+                    onSubmitted: (value) => _handleSearch(),
                   ),
                 ),
-                const SizedBox(width: 8),
-                Container(
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: _handleSearch, // ✅ No parentheses here
+                child: Container(
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
                     color: const Color(0xfff84c6b),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(Icons.tune_rounded, color: Colors.white),
+                  child: const Icon(Icons.search, color: Colors.white),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
             const SizedBox(height: 20),
             SizedBox(
               height: 60,
@@ -234,7 +244,7 @@ class _HomepageState extends State<Homepage> {
                     color: Colors.deepPurpleAccent,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(Icons.add_shopping_cart_rounded, color: Colors.white, size: 20),
+                  child: const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 20),
                 ),
               ),
             ),
