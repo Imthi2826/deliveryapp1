@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   lottie: ^3.3.1
   sliding_clipped_nav_bar: ^3.1.1
+  firebase_auth: ^5.6.2
+  cloud_firestore: ^5.6.11
+  firebase_core: ^3.15.1
 
 dev_dependencies:
   flutter_test:

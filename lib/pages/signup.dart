@@ -1,4 +1,5 @@
 import 'package:deliveryapp/service/widget_size.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
@@ -11,23 +12,67 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
+  Future<void> register() async {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+      try {
+        UserCredential _ = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Registered Successfully"),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Optionally navigate to another page here
+
+      } on FirebaseAuthException catch (e) {
+        String message = "";
+        if (e.code == 'weak-password') {
+          message = "Password is too weak";
+        } else if (e.code == 'email-already-in-use') {
+          message = "Account already exists";
+        } else {
+          message = e.message ?? "Registration failed";
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message), backgroundColor: Colors.red),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("All fields are required"),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffd0d1b4),
+      backgroundColor: const Color(0xffd0d1b4),
       body: Stack(
         children: [
-          // Top image section
+          // Top image
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 2.5,
-            decoration:  BoxDecoration(
-              image: const DecorationImage(
-                  image: AssetImage("assets/background.png"),fit: BoxFit.cover),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/background.png"), fit: BoxFit.cover),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(12),
                 bottomRight: Radius.circular(12),
@@ -46,7 +91,7 @@ class _SignupState extends State<Signup> {
             ),
           ),
 
-          // Signup form section
+          // Signup form
           Container(
             height: MediaQuery.of(context).size.height / 1.7,
             margin: EdgeInsets.only(
@@ -64,59 +109,51 @@ class _SignupState extends State<Signup> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Text(
-                        "Sign up",
-                        style: AppWidget.signupTextFieldStyle(),
-                      ),
-                    ),
+                    Center(child: Text("Sign up", style: AppWidget.signupTextFieldStyle())),
                     const SizedBox(height: 16),
 
                     Text("Name", style: AppWidget.signupTextFieldStyle()),
                     const SizedBox(height: 8),
-                    _buildTextField(hint: "Name"),
+                    _buildTextField(hint: "Enter Name", controller: _nameController, icon: Icons.person),
 
                     const SizedBox(height: 16),
                     Text("Email", style: AppWidget.signupTextFieldStyle()),
                     const SizedBox(height: 8),
-                    _buildTextField(
-                      hint: "Enter Email",
-                      controller: _emailController,
-                      icon: Icons.person,
-                    ),
+                    _buildTextField(hint: "Enter Email", controller: _emailController, icon: Icons.email),
 
                     const SizedBox(height: 16),
                     Text("Password", style: AppWidget.signupTextFieldStyle()),
                     const SizedBox(height: 8),
                     _buildPasswordField(),
 
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     Center(
-                      child: Container(
-                        height: 50,
-                        width: 140,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: AppWidget.signupTextFieldStyle(),
+                      child: GestureDetector(
+                        onTap: register,
+                        child: Container(
+                          height: 50,
+                          width: 140,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text("Sign Up", style: AppWidget.signupTextFieldStyle()),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Already have an account?",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,
-                        )),
-                        SizedBox(width: 10,),
+                        const Text("Already have an account?", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                        const SizedBox(width: 10),
                         GestureDetector(
                           onTap: widget.showLoginPage,
-                            child: Text("LogIn",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12,color: Colors.blue),))
+                          child: const Text("LogIn", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.blue)),
+                        )
                       ],
                     ),
                   ],
@@ -129,16 +166,12 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  // Reusable normal text field
-  Widget _buildTextField({
-    String? hint,
-    IconData? icon,
-    TextEditingController? controller,
-  }) {
+  // Text field
+  Widget _buildTextField({String? hint, IconData? icon, TextEditingController? controller}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
@@ -153,12 +186,12 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  // Reusable password field with toggle visibility
+  // Password field with toggle
   Widget _buildPasswordField() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
@@ -169,14 +202,8 @@ class _SignupState extends State<Signup> {
           hintText: "Enter Password",
           prefixIcon: const Icon(Icons.lock),
           suffixIcon: IconButton(
-            icon: Icon(
-              _obscurePassword ? Icons.visibility_off : Icons.visibility,
-            ),
-            onPressed: () {
-              setState(() {
-                _obscurePassword = !_obscurePassword;
-              });
-            },
+            icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+            onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
           ),
           hintStyle: const TextStyle(fontSize: 16),
         ),

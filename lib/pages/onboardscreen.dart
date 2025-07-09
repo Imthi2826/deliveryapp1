@@ -1,6 +1,5 @@
 import 'package:deliveryapp/model/category_model.dart';
 import 'package:deliveryapp/pages/auth.dart';
-import 'package:deliveryapp/pages/homepage.dart';
 import 'package:deliveryapp/service/widget_size.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -38,21 +37,25 @@ class _OnboardingState extends State<Onboarding> {
             ),
             Spacer(),
 
-            Container(
-              height: 70,
-              width: 250,
-              decoration: BoxDecoration(
-                color: Colors.brown,
-                borderRadius: BorderRadius.circular(20)
-              ),
-              child: TextButton(onPressed: (){
-                Navigator.pop(context,MaterialPageRoute(builder: (context)=>Auth()));
-
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> Auth()));
               },
-                  child: Text("Get Start",
-                  style: TextStyle(color: Colors.white,fontSize: 15),
-                  )),
-            )
+              child: Container(
+                height: 70,
+                width: 250,
+                decoration: BoxDecoration(
+                  color: Colors.brown,
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                  child: Center(
+                    child: Text("Get Start",
+                    style: TextStyle(color: Colors.white,fontSize: 15),
+                    ),
+                  ),
+                ),
+            ),
+
           ],
 
         ),

@@ -56,7 +56,7 @@ class AppWidget{
   static TextStyle signupTextFieldStyle(){
     return TextStyle(
         color: Colors.black,
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
     );
   }

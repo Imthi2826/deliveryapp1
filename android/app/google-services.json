@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "361204189078",
+    "project_id": "foodel-d3769",
+    "storage_bucket": "foodel-d3769.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361204189078:android:5984ad0a43374723127fb7",
+        "android_client_info": {
+          "package_name": "com.example.deliveryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL5anLCtb1oCwD3mokfVG204w4l432fT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

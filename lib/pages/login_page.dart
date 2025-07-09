@@ -1,12 +1,12 @@
 import 'package:deliveryapp/service/widget_size.dart';
 import 'package:deliveryapp/pages/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showSignup;
 
   const LoginPage({super.key, required this.showSignup});
-
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -16,6 +16,48 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+
+  // 🔐 Firebase login function
+  Future<void> signIn() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (email.isNotEmpty && password.isNotEmpty) {
+      try {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+
+        // 🎉 Navigate on successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Homepage()),
+        );
+      } on FirebaseAuthException catch (e) {
+        String message = "";
+        if (e.code == 'user-not-found') {
+          message = "No user found for that email.";
+        } else if (e.code == 'wrong-password') {
+          message = "Incorrect password.";
+        } else {
+          message = e.message ?? "Login failed.";
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Email and password are required"),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    Center(
-                        child: Text(
-                          "Sign in",
-                          style: AppWidget.signupTextFieldStyle(),
-                        ),
-                      ),
+                    Center(child: Text("Log IN", style: AppWidget.signupTextFieldStyle())),
                     const SizedBox(height: 16),
 
                     Text("Email", style: AppWidget.signupTextFieldStyle()),
@@ -82,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     _buildTextField(
                       hint: "Enter Email",
                       controller: _emailController,
-                      icon: Icons.person,
+                      icon: Icons.email,
                     ),
 
                     const SizedBox(height: 16),
@@ -90,23 +126,29 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 8),
                     _buildPasswordField(),
 
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Forget password?",
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.blue),
+                        ),
+                      ],
+                    ),
+
                     const SizedBox(height: 30),
                     Center(
-                      child: Container(
-                        height: 50,
-                        width: 140,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child:  GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const Homepage()),
-                              );
-                            },
-                          child: Center(
+                      child: GestureDetector(
+                        onTap: signIn, // 🔁 Call Firebase login here
+                        child: Container(
+                          height: 50,
+                          width: 140,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Center(
                             child: Text(
                               "Sign In",
                               style: TextStyle(
@@ -124,24 +166,13 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Not a member?",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        const Text("Not a member?",
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap: widget.showSignup,
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.blue,
-                            ),
-                          ),
+                          child: const Text("Sign Up",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue)),
                         )
                       ],
                     ),
@@ -155,7 +186,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Reusable normal text field
   Widget _buildTextField({
     String? hint,
     IconData? icon,
@@ -179,7 +209,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Reusable password field with toggle visibility
   Widget _buildPasswordField() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -195,9 +224,7 @@ class _LoginPageState extends State<LoginPage> {
           hintText: "Enter Password",
           prefixIcon: const Icon(Icons.lock),
           suffixIcon: IconButton(
-            icon: Icon(
-              _obscurePassword ? Icons.visibility_off : Icons.visibility,
-            ),
+            icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
             onPressed: () {
               setState(() {
                 _obscurePassword = !_obscurePassword;

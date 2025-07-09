@@ -2,7 +2,6 @@ import 'package:deliveryapp/model/category_model.dart';
 import 'package:deliveryapp/model/category_tile.dart';
 import 'package:deliveryapp/model/fooditem.dart';
 import 'package:deliveryapp/pages/Detail_pages.dart';
-import 'package:deliveryapp/pages/bottomnavigation.dart';
 import 'package:deliveryapp/service/Pizza_data.dart';
 import 'package:deliveryapp/service/burger_data.dart';
 import 'package:deliveryapp/service/category_data.dart';
@@ -25,8 +24,9 @@ class _HomepageState extends State<Homepage> {
   List<FoodItem> desserts = [];
   String selectedCategoryIndex = "1";
 
-  void _handleSearch(){
-    String place =_searchController.text.trim();
+  void _handleSearch() {
+    String place = _searchController.text.trim();
+    // Search logic can be added here if needed
   }
 
   @override
@@ -58,14 +58,13 @@ class _HomepageState extends State<Homepage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(text: "Foo", style: AppWidget.threelineTextFieldStyle()),
                       TextSpan(text: "D", style: AppWidget.twolineTextFieldStyle()),
-                      TextSpan(text: "ei", style: AppWidget.onelineTextFieldStyle()),
+                      TextSpan(text: "eL", style: AppWidget.onelineTextFieldStyle()),
                     ],
                   ),
                 ),
@@ -82,43 +81,44 @@ class _HomepageState extends State<Homepage> {
               ],
             ),
             const SizedBox(height: 8),
-            const Text("Order your favorite food!", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text("Order your favorite food!",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Search...",
-                      hintStyle: TextStyle(fontSize: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    onSubmitted: (value) => _handleSearch(),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Search...",
+                        hintStyle: TextStyle(fontSize: 16),
+                      ),
+                      onSubmitted: (value) => _handleSearch(),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: _handleSearch, // ✅ No parentheses here
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xfff84c6b),
-                    borderRadius: BorderRadius.circular(10),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: _handleSearch,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: const Color(0xfff84c6b),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(Icons.search, color: Colors.white),
                   ),
-                  child: const Icon(Icons.search, color: Colors.white),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
             const SizedBox(height: 20),
             SizedBox(
               height: 60,
@@ -205,7 +205,6 @@ class _HomepageState extends State<Homepage> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Center(
@@ -214,9 +213,9 @@ class _HomepageState extends State<Homepage> {
                   child: Image.asset(
                     image,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.fastfood, size: 50, color: Colors.grey);
-                    },
+                    cacheWidth: 300,
+                    errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.fastfood, size: 50, color: Colors.grey),
                   ),
                 ),
               ),
@@ -231,7 +230,8 @@ class _HomepageState extends State<Homepage> {
             const SizedBox(height: 4),
             Text(
               "₹$price",
-              style: AppWidget.pizzestyleTextFieldStyle().copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+              style: AppWidget.pizzestyleTextFieldStyle()
+                  .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Align(
