@@ -1,0 +1,3 @@
+[submodule "deliveryapp"]
+	path = deliveryapp
+	url = https://github.com/Imthi2826/deliveryapp1.git

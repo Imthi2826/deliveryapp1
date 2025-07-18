@@ -1,0 +1,39 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "foodel-5e71b",
+          "appId": "1:315610154854:android:662a537b891b706d4feaa7",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "foodel-5e71b",
+          "configurations": {
+            "android": "1:315610154854:android:662a537b891b706d4feaa7",
+            "ios": "1:315610154854:ios:de4d3077e308cb584feaa7",
+            "macos": "1:315610154854:ios:de4d3077e308cb584feaa7",
+            "web": "1:315610154854:web:15716ebd117d3ac34feaa7",
+            "windows": "1:315610154854:web:51737f5baa86b1534feaa7"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
+    }
+  },
+  "dataconnect": {
+    "source": "dataconnect"
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "nam5",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}
