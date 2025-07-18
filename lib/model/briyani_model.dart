@@ -1,23 +1,14 @@
+// lib/model/briyani_model.dart
+import 'package:deliveryapp/model/fooditem.dart';
 
-import 'package:deliveryapp/model/fooditem.dart'; // Import the interface
-
-class BriyaniModel implements FoodItem {
-  @override
-  final String image;
-  @override
-  final String name;
-  @override
-  final String price;
-  // Add any other burger-specific fields here
-  // e.g., final bool isVeg;
+class BriyaniModel extends FoodItem {
+  // Add any Biryani-specific properties here if needed
+  // final bool isSpicy;
 
   BriyaniModel({
-    required this.image,
-    required this.name,
-    required this.price,
-    // required this.isVeg,
-  });
-
-// If you have factory constructors for dummy data, they can remain
-// static BurgerModel fromJson(Map<String, dynamic> json) { ... }
+    required String image,
+    required String name,
+    required String price,
+    // this.isSpicy = false,
+  }) : super(image: image, name: name, price: price, category: 'briyani');
 }
